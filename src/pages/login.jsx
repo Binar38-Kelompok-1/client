@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nik: "",
     password: "",
@@ -36,6 +38,7 @@ const Login = () => {
         console.log("Login failed");
         // Handle login failure, show error message, etc.
       }
+      navigate("/user/profil");
     } catch (error) {
       console.error("An error occurred during login:", error.message);
       // Handle error, show error message, etc.

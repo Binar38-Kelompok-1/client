@@ -1,8 +1,8 @@
 const UserSidebar = (props) => {
-    return (
-        <>
-            <style>
-                {`
+  return (
+    <>
+      <style>
+        {`
                     #wrapper {
                         overflow-x: hidden;
                     }
@@ -97,29 +97,52 @@ const UserSidebar = (props) => {
                         margin-right: 22px;
                     }
                 `}
-            </style>
+      </style>
 
-            <div className="d-flex" id="wrapper">
-            <div className="border-end bg-white" id="sidebar-wrapper">
-                <div className="sidebar-heading border-bottom">
-                    {/* <%= nama %> */}
-                    Nama User
-                </div>
-                <div className="list-group list-group-flush">
-                    <a className="list-group-item list-group-item-action list-group-item p-3 profil-item" href="/user/profil"><i className="fa-solid fa-user side-icon profil-icon"></i> Profil</a>
-                    <a className="list-group-item list-group-item-action list-group-item p-3 lapor-item" href="/user/lapor"><i className="fa-solid fa-flag side-icon lapor-icon"></i> Lapor</a>
-                    <a className="list-group-item list-group-item-action list-group-item p-3 riwayat-item" href="/user/riwayat"><i className="fa-solid fa-clock-rotate-left side-icon riwayat-icon"></i> Riwayat</a>
-                    <a className="list-group-item list-group-item-action list-group-item p-3 logout-item" href="/user/logout" onclick="return confirm('Apakah Anda Ingin Logout?')"><i className="fa-solid fa-right-from-bracket side-icon logout-icon"></i> Logout</a>
-                </div>
-            </div>
-            <div id="page-content-wrapper">
-                <div className="container-fluid">
-                    <props.body/>
-                </div>
-            </div>
+      <div className="d-flex" id="wrapper">
+        <div className="border-end bg-white" id="sidebar-wrapper">
+          <div className="sidebar-heading border-bottom">
+            {/* <%= nama %> */}
+            Nama User
+          </div>
+          <div className="list-group list-group-flush">
+            <a
+              className="list-group-item list-group-item-action list-group-item p-3 profil-item"
+              href="/user/profil"
+            >
+              <i className="fa-solid fa-user side-icon profil-icon"></i> Profil
+            </a>
+            <a
+              className="list-group-item list-group-item-action list-group-item p-3 lapor-item"
+              href="/user/lapor"
+            >
+              <i className="fa-solid fa-flag side-icon lapor-icon"></i> Lapor
+            </a>
+            <a
+              className="list-group-item list-group-item-action list-group-item p-3 riwayat-item"
+              href="/user/riwayat"
+            >
+              <i className="fa-solid fa-clock-rotate-left side-icon riwayat-icon"></i>{" "}
+              Riwayat
+            </a>
+            <a
+              className="list-group-item list-group-item-action list-group-item p-3 logout-item"
+              href="/user/logout"
+              onClick="return confirm('Apakah Anda Ingin Logout?')"
+            >
+              <i className="fa-solid fa-right-from-bracket side-icon logout-icon"></i>{" "}
+              Logout
+            </a>
+          </div>
         </div>
-        </>
-    )
-}
+        <div id="page-content-wrapper">
+          <div className="container-fluid">
+            <props.body />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default UserSidebar
+export default UserSidebar;
