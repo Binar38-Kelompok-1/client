@@ -1,4 +1,39 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 const AdminProfile = () => {
+
+    const [userData, setUserData] = useState({});
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+        try {
+            const token = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("authorization="))
+            .split("=")[1];
+
+            const response = await axios.get("http://localhost:3000/admin", {
+            withCredentials: true,
+            headers: {
+                Authorization: ` ${token}`,
+            },
+            });
+
+            if (response.data.message === "success") {
+            setUserData(response.data.data);
+            } else {
+            setError("Failed to fetch user data");
+            }
+        } catch (error) {
+            setError("An error occurred while fetching user data");
+        }
+        };
+
+        fetchUserData();
+    }, []);
+
     return (
         <>
             <style>
@@ -47,11 +82,13 @@ const AdminProfile = () => {
                 `}
             </style>
 
-            {/* <div class="container w-50 text-center">
-                <% if (message.length > 0) { %>
-                    <p class="alert alert-success mt-5" style="color: green;"><%= message %></p>
-                <% } %>
-            </div> */}
+            <div className="container w-50 text-center">
+                {error && (
+                <p className="alert alert-danger mt-5" style={{ color: "red" }}>
+                    {error}
+                </p>
+                )}
+            </div>
 
             <div class="container w-50 prof-cont">
                 <div class="card">
@@ -59,17 +96,17 @@ const AdminProfile = () => {
                         Profil Anda
                     </div>
                     <div class="card-body">
-                        <p class="key"><span>Username:</span>
-                            {/* <%= data.username %> */}
+                        <p class="key"><span>Username: </span>
+                            {userData.username}
                         </p>
-                        <p class="key"><span>Nama Lengkap:</span>
-                            {/* <%= data.nama %> */}
+                        <p class="key"><span>Nama Lengkap: </span>
+                            {userData.nama}
                         </p>
-                        <p class="key"><span>Nomor Telepon:</span>
-                            {/* <%= 0+data.no_telp %> */}
+                        <p class="key"><span>Nomor Telepon: </span>
+                            {0+userData.no_telp}
                         </p>
-                        <p class="key"><span>Alamat:</span>
-                            {/* <%= data.alamat %> */}
+                        <p class="key"><span>Alamat: </span>
+                            {userData.alamat}
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
