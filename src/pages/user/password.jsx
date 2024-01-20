@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const UserPassword = () => {
   const navigate = useNavigate();
@@ -38,7 +39,8 @@ const UserPassword = () => {
       setForm1(false);
     } catch (error) {
       setAlertForm1(true);
-      //   console.log(error);
+      console.log("debug:", error.response);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -65,8 +67,11 @@ const UserPassword = () => {
       });
 
       navigate("/user/profil");
+      toast.success("Password berhasil diubah!");
     } catch (error) {
       setAlertForm2(true);
+      console.log("debug:", error.response.data.error);
+      toast.error(error.response.data.error);
       //   alert("Error");
     }
   };
