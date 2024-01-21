@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Lapor = () => {
-  const [formData, setFormData] = useState({ lapor: "" });
-  const [userData, setUserData] = useState({});
+  const [formLapor, setFormLapor] = useState("");
+  const [setUserData] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -38,17 +38,17 @@ const Lapor = () => {
   const Navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormLapor({
+      ...formLapor,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitLaporan = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/lapor", formData);
+      await axios.post("http://localhost:3000/lapor", formLapor);
       Navigate("/user/riwayat");
     } catch (error) {
       console.error("An error occurred:", error.message);
@@ -96,7 +96,7 @@ const Lapor = () => {
           action="/user/lapor"
           method="post"
           encType="multipart/form-data"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitLaporan}
         >
           <textarea
             style={{ height: "200px" }}
@@ -104,8 +104,9 @@ const Lapor = () => {
             name="isi_laporan"
             id="isi_laporan"
             placeholder="Tulis Laporan Disini"
-            value={formData.lapor}
+            value={formLapor.lapor}
             onChange={handleInputChange}
+            required
           ></textarea>
           <div className="d-flex justify-content-between">
             <input
