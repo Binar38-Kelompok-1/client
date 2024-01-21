@@ -1,4 +1,61 @@
+import axios from "axios"
+import { useState } from "react"
+import { useNavigate } from "react-router"
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const LoginPetugas = () => {
+    const navigate = useNavigate()
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
+    const handleUsername = (event) => {
+        setUsername((data) => (
+            data = event.target.value
+        ))
+    }
+
+    const handlePassword = (event) => {
+        setPassword((data) => (
+            data = event.target.value
+        ))
+    }
+
+    
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        const errorNotif = toast.error('Username atau Password Salah !', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+        });
+
+        try {
+            const response = await axios.post('http://localhost:3000/login-petugas', {
+                username: username,
+                password: password
+            })
+
+            if (response.data.token) {
+                console.log('Login Success');
+                document.cookie = `authorization=${response.data.token}; path=/;`
+                navigate('/admin')
+            } else {
+                console.log('Login Failed');
+            }
+            errorNotif()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <style>
@@ -55,9 +112,9 @@ const LoginPetugas = () => {
                 <% } %> */}
 
                 <div className="container w-25 div-form">
-                    <form className="mt-2" action="/login-petugas" method="post">
-                        <input className="form-control" type="text" id="username" name="username" placeholder="Username" required/> <br/>
-                        <input className="form-control" type="password" id="password" name="password" placeholder="Password"/> <br/> <br/>
+                    <form onSubmit={handleSubmit} className="mt-2">
+                        <input onChange={handleUsername} className="form-control" type="text" id="username" name="username" placeholder="Username" required/> <br/>
+                        <input onChange={handlePassword} className="form-control" type="password" id="password" name="password" placeholder="Password"/> <br/> <br/>
                         <div className="d-flex justify-content-between">
                             <a className="btn btn-danger" style={{width: '23%'}} href="/"><i className="fa-solid fa-right-from-bracket"></i></a>
                             <button className="btn btn-success w-75" type="submit">Masuk</button>
@@ -65,6 +122,20 @@ const LoginPetugas = () => {
                     </form>
                 </div>
             </center>
+
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable={false}
+                pauseOnHover={false}
+                theme="colored"
+                transition={Slide}
+            />
         </>
     )
 }
