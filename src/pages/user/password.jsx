@@ -159,7 +159,11 @@ const UserPassword = () => {
           <div className="container w-50">
             {alertForm2 && (
               <p className="alert alert-danger" style={{ color: "red" }}>
-                <i className="fa-solid fa-circle-exclamation"></i>
+                <i
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ marginRight: 4 }}
+                ></i>
+                Password tidak boleh sama!
               </p>
             )}
           </div>
