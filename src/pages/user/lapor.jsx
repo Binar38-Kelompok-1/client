@@ -48,7 +48,7 @@ const Lapor = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/lapor", formLapor);
+      await axios.post("http://localhost:3000/user/lapor", formLapor);
       Navigate("/user/riwayat");
     } catch (error) {
       console.error("An error occurred:", error.message);
