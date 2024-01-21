@@ -1,4 +1,16 @@
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+
 const UserSidebar = (props) => {
+  const navigate = useNavigate();
+  const logout = () => {
+    if (window.confirm("Apakah Anda Ingin Logout?")) {
+      document.cookie = `authorization=; path=/;`;
+      toast.success("Logout Berhasil!");
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <style>
@@ -125,14 +137,16 @@ const UserSidebar = (props) => {
               <i className="fa-solid fa-clock-rotate-left side-icon riwayat-icon"></i>{" "}
               Riwayat
             </a>
-            <a
+
+            <button
               className="list-group-item list-group-item-action list-group-item p-3 logout-item"
-              href="/user/logout"
-              onClick="return confirm('Apakah Anda Ingin Logout?')"
+              // onClick="return confirm('Apakah Anda Ingin Logout?')"
+
+              onClick={logout}
             >
               <i className="fa-solid fa-right-from-bracket side-icon logout-icon"></i>{" "}
               Logout
-            </a>
+            </button>
           </div>
         </div>
         <div id="page-content-wrapper">
