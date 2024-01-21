@@ -54,7 +54,7 @@ function App() {
           <Route path='/user/lapor' element={<UserSidebar body={Lapor}/>}/>
           <Route path='/user/riwayat' element={<UserSidebar body={UserRiwayat}/>}/>
           <Route path='/user/riwayat/:idLaporan' element={<UserSidebar body={UserRiwayatDetail}/>}/>
-          
+
           <Route path='/admin/' element={<AdminSidebar body={AdminIndex}/>}/>
           <Route path='/admin/profil' element={<AdminSidebar body={AdminProfile}/>}/>
           <Route path='/admin/profil/edit' element={<AdminSidebar body={AdminProfileEdit}/>}/>
