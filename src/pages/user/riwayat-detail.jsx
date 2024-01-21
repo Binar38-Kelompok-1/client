@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 
 const UserRiwayatDetail = () => {
-  const handlePrint = () => {
-    window.print();
+  const [searchParams] = useSearchParams("");
+  const [detailLaporan, setDetailLaporan] = useState({});
+  const componentRef = useRef();
+
+  const idLaporan = searchParams.get("id");
+
+  useEffect(() => {
+    handleDetailRiwayat(idLaporan);
+  }, [idLaporan]);
+
+  const handleDetailRiwayat = async (id) => {
+    try {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("authorization="))
+        .split("=")[1];
+
+      const data = await axios({
+        method: "GET",
+        url: `http://localhost:3000/user/riwayat/${id}`,
+        withCredentials: true,
+        headers: {
+          Authorization: ` ${token}`,
+        },
+      });
+
+      console.log("debug detail lap:", data.data.data);
+      setDetailLaporan(data.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // Print functionality
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
     <>
@@ -45,33 +82,31 @@ const UserRiwayatDetail = () => {
       </style>
 
       <div className="container w-75 mt-2">
-        <div className="card">
-          <div className="card-header text-center">
-            Info Laporan
-          </div>
+        <div className="card" ref={componentRef}>
+          <div className="card-header text-center">Info Laporan</div>
           <div className="card-body d-flex">
-            {/* <% if (typeof dataLaporan.foto !== 'null') { %> */}
-                <div>
-                <img src="https://placehold.it/200" alt="Laporan Foto" />
-                {/*<img src="<%= dataLaporan.foto %>" alt="" srcSet=""/>*/}
-                </div>
-            {/* <% } %> */}
+            <div>
+              <img src={detailLaporan.laporan?.foto} alt="" srcSet="" />
+            </div>
             <div className="isi">
-              <p><span>Nama Pengirim:</span> John Doe
-                {/* <%= dataUser.nama %> */}
+              <p>
+                <span>Nama Pengirim: </span>
+                {detailLaporan.nama}
               </p>
-              <p><span>NIK:</span> 123456789
-                {/* <%= dataUser.nik %> */}
+              <p>
+                <span>NIK: </span>
+                {detailLaporan.nikMasyarakat}
               </p>
-              <p><span>Status Laporan:</span> 
-                    {/* <% if (dataLaporan.status === false) { %> */}
-                                Belum Dibalas
-                    {/* <% } else { %> */}
-                                Sudah Dibalas
-                    {/* <% } %> */}
-                </p>
-              <p><span>Isi Laporan:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              {/* <%= dataLaporan.isi_laporan %> */}
+              <p>
+                <span>Status Laporan: </span>
+                {detailLaporan.laporan?.status
+                  ? "Sudah Dibalas"
+                  : "Belum Dibalas"}
+              </p>
+
+              <p>
+                <span>Isi Laporan: </span>
+                {detailLaporan.laporan?.isi_laporan}
               </p>
             </div>
           </div>
@@ -79,36 +114,52 @@ const UserRiwayatDetail = () => {
         </div>
       </div>
 
-      <div className="container w-75 mt-2">
-        <div className="card">
-          <div className="card-header text-center">Info Balasan</div>
-          <div className="card-body">
-            <p><span>Isi Balasan :</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            {/* <%= dataBalasan.isi_balasan %> */}
-            </p>
-            <p className="mt-5"><span>Dibalas Oleh:</span> Admin User
-             {/* <%= dataAdmin.nama %> */}
-            </p>
-            <p><span>No. Telp:</span> 123-456-7890
-            {/* <%= 0+dataAdmin.no_telp %> */}
-            </p>
-            <p><span>Alamat:</span> 123 Main St, City
-            {/* <%= dataAdmin.alamat %> */}
-            </p>
-            <p><span>Dibalas Pada:</span> January 21, 2024, 12:30 PM
-            {/* <%= dataBalasan.tgl_balasan.toLocaleDateString('id-ID', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' }) %> */}
-            </p>
+      {detailLaporan.laporan?.status && (
+        <div className="container w-75 mt-2">
+          <div className="card">
+            <div className="card-header text-center">Info Balasan</div>
+            <div className="card-body">
+              <p>
+                <span>Isi Balasan: </span>
+                {detailLaporan.balasan?.isi_balasan}
+              </p>
+              <p className="mt-1">
+                <span>Dibalas Oleh: </span>
+                {detailLaporan.admin}
+              </p>
+              <p>
+                <span>No.Telp: </span>
+                {detailLaporan.noTelpAdmin}
+              </p>
+              <p>
+                <span>Alamat: </span>
+                {detailLaporan.alamatAdmin}
+              </p>
+              <p>
+                <span>Dibalas Pada: </span>
+                {new Date(
+                  detailLaporan.balasan?.tgl_balasan
+                ).toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZoneName: "short",
+                })}
+              </p>
+            </div>
+            <div className="card-footer"></div>
           </div>
-          <div className="card-footer"></div>
         </div>
-      </div>
+      )}
 
-      {/* Print button */}
-      <div className="text-center mt-3">
-        <button className="btn btn-primary" onClick={handlePrint}>
-          Print
+        <div className="text-center mt-3">
+          <button onClick={handlePrint} className="btn btn-primary">
+            Print
         </button>
-      </div>
+</div>
     </>
   );
 };
