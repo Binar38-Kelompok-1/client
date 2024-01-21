@@ -73,7 +73,7 @@ function App() {
           <Route path='/admin/selesai/:idLaporan' element={<AdminSidebar body={SelesaiDetail}/>}/>
           <Route path='/admin/riwayat' element={<AdminSidebar body={AdminRiwayat}/>}/>
           <Route path='/admin/riwayat/:idLaporan' element={<AdminSidebar body={AdminRiwayatDetail}/>}/>
-
+          {/* tes */}
           <Route path='*' element={<Error404/>}/>
         </Routes>
       </BrowserRouter>

@@ -30,6 +30,7 @@ const UserRiwayatDetail = () => {
         },
       });
 
+
       console.log("debug detail lap:", data.data.data);
       setDetailLaporan(data.data.data);
     } catch (error) {
