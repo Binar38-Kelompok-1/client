@@ -3,10 +3,44 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 const Lapor = () => {
-    return (
-        <>
-            <style>
-                {`
+  const navigate = useNavigate();
+  const [isiLaporan, setIsiLaporan] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Fetch the token from cookies
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("authorization="))
+        .split("=")[1];
+
+      const formData = new FormData(e.target);
+      const response = await axios.post(
+        "http://localhost:3000/user/lapor",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.message === "success") {
+        navigate("/user/riwayat");
+      } else {
+        console.log("Laporan gagal terkirim");
+      }
+    } catch (error) {
+      // Handle error, you might want to show an error message
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  return (
+    <>
+      <style>
+        {`
                     .title {
                         text-align: center;
                         font-size: 50px;
