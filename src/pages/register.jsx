@@ -26,6 +26,7 @@ const Register = () => {
     try {
       await axios.post("http://localhost:3000/register", formData);
       navigate("/");
+      console.log("berhasil");
 
       // Assuming your API response structure is similar to the provided example
       //   if (response.data.token) {
