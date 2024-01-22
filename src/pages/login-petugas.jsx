@@ -26,17 +26,6 @@ const LoginPetugas = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        const errorNotif = toast.error('Username atau Password Salah !', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            theme: "colored",
-        });
-
         try {
             const response = await axios.post('http://localhost:3000/login-petugas', {
                 username: username,
@@ -46,12 +35,33 @@ const LoginPetugas = () => {
             if (response.data.token) {
                 console.log('Login Success');
                 document.cookie = `authorization=${response.data.token}; path=/;`
+                toast.success('Login Berhasil !', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Slide
+                })
                 navigate('/admin')
             } else {
                 console.log('Login Failed');
             }
-            errorNotif()
         } catch (error) {
+            toast.error('Username atau Password Salah !', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                transition: Slide
+            });
             console.log(error);
         }
     }
@@ -116,26 +126,14 @@ const LoginPetugas = () => {
                         <input onChange={handleUsername} className="form-control" type="text" id="username" name="username" placeholder="Username" required/> <br/>
                         <input onChange={handlePassword} className="form-control" type="password" id="password" name="password" placeholder="Password"/> <br/> <br/>
                         <div className="d-flex justify-content-between">
-                            <a className="btn btn-danger" style={{width: '23%'}} href="/"><i className="fa-solid fa-right-from-bracket"></i></a>
+                            <a onClick={() => navigate('/')} className="btn btn-danger" style={{width: '23%'}}><i className="fa-solid fa-right-from-bracket"></i></a>
                             <button className="btn btn-success w-75" type="submit">Masuk</button>
                         </div>
                     </form>
                 </div>
             </center>
 
-            <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable={false}
-                pauseOnHover={false}
-                theme="colored"
-                transition={Slide}
-            />
+            <ToastContainer/>
         </>
     )
 }
