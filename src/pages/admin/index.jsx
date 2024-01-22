@@ -1,4 +1,34 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+
 const AdminIndex = () => {
+    const [nama, setNama] = useState("")
+    
+    useEffect(() => {
+        handleNama()
+    }, [])
+
+    const handleNama = async () => {
+        try {
+            const token = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("authorization="))
+            .split("=")[1];
+
+            const response = await axios.get('http://localhost:3000/admin/', {
+                withCredentials: true,
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
+
+            setNama(response.data.data.nama)
+            console.log(response.data.data.nama);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <style>
@@ -11,7 +41,7 @@ const AdminIndex = () => {
                     }
                 `}
             </style>
-            <h1>Selamat Datang, Nama Admin!</h1>
+            <h1>Selamat Datang, {`${nama}`}</h1>
         </>
     )
 }
