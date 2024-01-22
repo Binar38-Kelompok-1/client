@@ -88,7 +88,7 @@ const UserRiwayatDetail = () => {
               </p>
               <p>
                 <span>NIK: </span>
-                {detailLaporan.nikMasyarakat}
+                {detailLaporan.nik}
               </p>
               <p>
                 <span>Status Laporan: </span>

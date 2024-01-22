@@ -59,7 +59,7 @@ function App() {
           <Route path='/admin/' element={<AdminSidebar body={AdminIndex}/>}/>
           <Route path='/admin/profil' element={<AdminSidebar body={AdminProfile}/>}/>
           <Route path='/admin/profil/edit' element={<AdminSidebar body={AdminProfileEdit}/>}/>
-          <Route path='/admin/password' element={<AdminSidebar body={AdminPassword}/>}/>
+          <Route path='/admin/profil/password' element={<AdminSidebar body={AdminPassword}/>}/>
           <Route path='/admin/dasbor' element={<AdminSidebar body={Dashboard}/>}/>
           <Route path='/admin/masyarakat' element={<AdminSidebar body={Masyarakat}/>}/>
           <Route path='/admin/masyarakat/:idMasyarakat' element={<AdminSidebar body={MasyarakatDetail}/>}/>

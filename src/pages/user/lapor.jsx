@@ -1,64 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const Lapor = () => {
-  const [formLapor, setFormLapor] = useState("");
-  const [setUserData] = useState({});
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("authorization="))
-          .split("=")[1];
-
-        const response = await axios.get("http://localhost:3000/user", {
-          withCredentials: true,
-          headers: {
-            Authorization: ` ${token}`,
-          },
-        });
-
-        if (response.data.message === "success") {
-          setUserData(response.data.data);
-        } else {
-          setError("Failed to fetch user data");
-        }
-      } catch (error) {
-        setError("An error occurred while fetching user data");
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const Navigate = useNavigate();
-
-  const handleInputChange = (e) => {
-    setFormLapor({
-      ...formLapor,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmitLaporan = async (e) => {
-    e.preventDefault();
-
-    try {
-      await axios.post("http://localhost:3000/user/lapor", formLapor);
-      Navigate("/user/riwayat");
-    } catch (error) {
-      console.error("An error occurred:", error.message);
-    }
-  };
-
-  return (
-    <>
-      <style>
-        {`
+    return (
+        <>
+            <style>
+                {`
                     .title {
                         text-align: center;
                         font-size: 50px;
@@ -75,14 +23,6 @@ const Lapor = () => {
                 `}
       </style>
 
-      <div className="container w-50 text-center">
-        {error && (
-          <p className="alert alert-danger mt-5" style={{ color: "red" }}>
-            {error}
-          </p>
-        )}
-      </div>
-
       <h1 className="title">Tulis Laporan</h1>
 
       {/* <% if (typeof message !== 'undefined') { %>
@@ -92,21 +32,15 @@ const Lapor = () => {
             <% } %> */}
 
       <div className="container w-100">
-        <form
-          action="/user/lapor"
-          method="post"
-          encType="multipart/form-data"
-          onSubmit={handleSubmitLaporan}
-        >
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <textarea
             style={{ height: "200px" }}
             className="form-control mb-2"
             name="isi_laporan"
             id="isi_laporan"
             placeholder="Tulis Laporan Disini"
-            value={formLapor.lapor}
-            onChange={handleInputChange}
-            required
+            value={isiLaporan}
+            onChange={(e) => setIsiLaporan(e.target.value)}
           ></textarea>
           <div className="d-flex justify-content-between">
             <input
