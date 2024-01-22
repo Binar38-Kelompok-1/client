@@ -161,7 +161,7 @@ const UserRiwayat = () => {
         </table>
       </div>
 
-      {/*  */}
+      {/*tombol perintah print*/}
       <div className="text-center mt-3">
         <button className="btn btn-primary" onClick={handlePrint}>
           Print to PDF
