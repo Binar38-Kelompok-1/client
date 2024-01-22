@@ -11,7 +11,7 @@ const Register = () => {
     alamat: "",
   });
 
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormData({
@@ -25,7 +25,7 @@ const Register = () => {
 
     try {
       await axios.post("http://localhost:3000/register", formData);
-      Navigate("/");
+      navigate("/");
 
       // Assuming your API response structure is similar to the provided example
       //   if (response.data.token) {
