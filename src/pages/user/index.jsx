@@ -1,8 +1,36 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 const UserIndex = () => {
-    return (
-        <>
-            <style>
-                {`
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const getUserName = async () => {
+      try {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("authorization="))
+          .split("=")[1];
+
+        const data = await axios.get("http://localhost:3000/user", {
+          withCredentials: true,
+          headers: {
+            Authorization: ` ${token}`,
+          },
+        });
+        setUserName(data.data.data.nama);
+        // console.log(data.data.data.nama);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserName();
+  }, []);
+
+  return (
+    <>
+      <style>
+        {`
                     h1 {
                         text-align: center;
                         margin-top: 250px;
@@ -10,11 +38,11 @@ const UserIndex = () => {
                         font-weight: 700;
                     }
                 `}
-            </style>
+      </style>
 
-            <h1>Selamat Datang, Nama User!</h1>
-        </>
-    )
-}
+      <h1>Selamat Datang, {userName} !</h1>
+    </>
+  );
+};
 
-export default UserIndex
+export default UserIndex;

@@ -38,7 +38,7 @@ const Login = () => {
         console.log("Login failed");
         // Handle login failure, show error message, etc.
       }
-      navigate("/user/");
+navigate("/user");
     } catch (error) {
       console.error("An error occurred during login:", error.message);
       // Handle error, show error message, etc.
