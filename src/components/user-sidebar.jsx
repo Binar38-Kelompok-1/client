@@ -1,8 +1,35 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const UserSidebar = (props) => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const getUserName = async () => {
+      try {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("authorization="))
+          .split("=")[1];
+
+        const data = await axios.get("http://localhost:3000/user", {
+          withCredentials: true,
+          headers: {
+            Authorization: ` ${token}`,
+          },
+        });
+        setUserName(data.data.data.nama);
+        // console.log(data.data.data.nama);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserName();
+  }, []);
+
   const logout = () => {
     if (window.confirm("Apakah Anda Ingin Logout?")) {
       document.cookie = `authorization=; path=/;`;
@@ -115,7 +142,7 @@ const UserSidebar = (props) => {
         <div className="border-end bg-white" id="sidebar-wrapper">
           <div className="sidebar-heading border-bottom">
             {/* <%= nama %> */}
-            Nama User
+            Halo {userName} !
           </div>
           <div className="list-group list-group-flush">
             <a
