@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const AdminProfile = () => {
+    const navigate = useNavigate()
 
     const [userData, setUserData] = useState({});
     const [error, setError] = useState(null);
@@ -15,10 +17,10 @@ const AdminProfile = () => {
             .split("=")[1];
 
             const response = await axios.get("http://localhost:3000/admin", {
-            withCredentials: true,
-            headers: {
-                Authorization: ` ${token}`,
-            },
+                withCredentials: true,
+                headers: {
+                    Authorization: ` ${token}`,
+                },
             });
 
             if (response.data.message === "success") {
@@ -90,29 +92,29 @@ const AdminProfile = () => {
                 )}
             </div>
 
-            <div class="container w-50 prof-cont">
-                <div class="card">
-                    <div class="card-header text-center">
+            <div className="container w-50 prof-cont">
+                <div className="card">
+                    <div className="card-header text-center">
                         Profil Anda
                     </div>
-                    <div class="card-body">
-                        <p class="key"><span>Username: </span>
+                    <div className="card-body">
+                        <p className="key"><span>Username: </span>
                             {userData.username}
                         </p>
-                        <p class="key"><span>Nama Lengkap: </span>
+                        <p className="key"><span>Nama Lengkap: </span>
                             {userData.nama}
                         </p>
-                        <p class="key"><span>Nomor Telepon: </span>
+                        <p className="key"><span>Nomor Telepon: </span>
                             {0+userData.no_telp}
                         </p>
-                        <p class="key"><span>Alamat: </span>
+                        <p className="key"><span>Alamat: </span>
                             {userData.alamat}
                         </p>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a class="btn btn-danger" style={{width: '19%'}} href="/admin"><i class="fa-solid fa-right-from-bracket"></i></a>
-                        <a class="btn btn-success" style={{width: '39%'}} href="profil/edit"><i class="fa-solid fa-pen-to-square"></i> Edit Profil</a>
-                        <a class="btn btn-primary" style={{width: '39%'}} href="profil/password"><i class="fa-solid fa-lock"></i> Ubah Password</a>
+                    <div className="card-footer d-flex justify-content-between">
+                        <a onClick={() => navigate('/admin')} className="btn btn-danger" style={{width: '19%'}}><i className="fa-solid fa-right-from-bracket"></i></a>
+                        <a onClick={() => navigate('edit')} className="btn btn-success" style={{width: '39%'}}><i className="fa-solid fa-pen-to-square"></i> Edit Profil</a>
+                        <a onClick={() => navigate('password')} className="btn btn-primary" style={{width: '39%'}}><i className="fa-solid fa-lock"></i> Ubah Password</a>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,42 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+
 const AdminSidebar = (props) => {
+  const navigate = useNavigate()
+  const [nama, setNama] = useState("")
+
+  const logout = () => {
+    if (window.confirm("Apakah Anda Ingin Logout?")) {
+      document.cookie = `authorization=; path=/;`;
+      navigate("/");
+    }
+  };
+    
+    useEffect(() => {
+        handleNama()
+    }, [])
+
+    const handleNama = async () => {
+        try {
+            const token = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("authorization="))
+            .split("=")[1];
+
+            const response = await axios.get('http://localhost:3000/admin/', {
+                withCredentials: true,
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
+
+            setNama(response.data.data.nama)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
   return (
     <>
       <style>
@@ -106,62 +144,68 @@ const AdminSidebar = (props) => {
       <div className="d-flex" id="wrapper">
         <div className="border-end bg-white" id="sidebar-wrapper">
           <div className="sidebar-heading border-bottom">
-            {/* <%= nama %> */}
-            Nama Admin
+            {`${nama}`}
           </div>
           <div className="list-group list-group-flush">
             <a
+              onClick={() => navigate('/admin/profil')}
               className="list-group-item list-group-item-action list-group-item p-3 profil-item"
-              href="/admin/profil"
+              // href="/admin/profil"
             >
               <i className="fa-solid fa-user side-icon profil-icon"></i> Profil
             </a>
             <a
+              onClick={() => navigate('/admin/dasbor')}
               className="list-group-item list-group-item-action list-group-item p-3 lapor-item"
-              href="/admin/dasbor"
+              // href="/admin/dasbor"
             >
               <i className="fa-solid fa-table-columns side-icon dasbor-icon"></i>{" "}
               Dasbor
             </a>
             <a
+              onClick={() => navigate('/admin/masyarakat')}
               className="list-group-item list-group-item-action list-group-item p-3 masyarakat-item"
-              href="/admin/masyarakat"
+              // href="/admin/masyarakat"
             >
               <i className="fa-solid fa-users side-icon masyarakat-icon"></i>{" "}
               Masyarakat
             </a>
             <a
+              onClick={() => navigate('/admin/petugas')}
               className="list-group-item list-group-item-action list-group-item p-3 petugas-item"
-              href="/admin/petugas"
+              // href="/admin/petugas"
             >
               <i className="fa-solid fa-user-tie side-icon petugas-icon"></i>{" "}
               Petugas
             </a>
             <a
+              onClick={() => navigate('/admin/laporan')}
               className="list-group-item list-group-item-action list-group-item p-3 belum-item"
-              href="/admin/laporan"
+              // href="/admin/laporan"
             >
               <i className="fa-solid fa-circle-exclamation side-icon belum-icon"></i>{" "}
               Belum Dibalas
             </a>
             <a
+              onClick={() => navigate('/admin/selesai')}
               className="list-group-item list-group-item-action list-group-item p-3 selesai-item"
-              href="/admin/selesai"
+              // href="/admin/selesai"
             >
               <i className="fa-solid fa-circle-check side-icon selesai-icon"></i>{" "}
               Sudah Dibalas
             </a>
             <a
+              onClick={() => navigate('/admin/riwayat')}
               className="list-group-item list-group-item-action list-group-item p-3 riwayat-item"
-              href="/admin/riwayat"
+              // href="/admin/riwayat"
             >
               <i className="fa-solid fa-clock-rotate-left side-icon riwayat-icon"></i>{" "}
               Riwayat
             </a>
             <a
+              onClick={logout}
               className="list-group-item list-group-item-action list-group-item p-3 logout-item"
-              href="/admin/logout"
-              onClick="return confirm('Apakah Anda Ingin Logout?')"
+              // href="/admin/logout"
             >
               <i className="fa-solid fa-right-from-bracket side-icon logout-icon"></i>{" "}
               Logout

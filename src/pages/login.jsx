@@ -38,7 +38,7 @@ const Login = () => {
         console.log("Login failed");
         // Handle login failure, show error message, etc.
       }
-      navigate("/user/profil");
+      navigate("/user/");
     } catch (error) {
       console.error("An error occurred during login:", error.message);
       // Handle error, show error message, etc.
@@ -156,10 +156,10 @@ const Login = () => {
         </div>{" "}
         <br />
         <p>
-          Belum punya akun? Register <a href="/register">disini</a>
+          Belum punya akun? Register <a onClick={() => navigate('/register')} href="javascript:void(0)">disini</a>
         </p>
         <p>
-          Petugas login <a href="/login-petugas">disini</a>
+          Petugas login <a onClick={() => navigate('/login-petugas')} href="javascript:void(0)">disini</a>
         </p>
         <img src="logo.png" alt="" />
       </center>
