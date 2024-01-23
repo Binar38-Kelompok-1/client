@@ -9,7 +9,7 @@ const Lapor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Fetch the token from cookies
+      // Fetch the token from cookie
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("authorization="))
