@@ -34,6 +34,7 @@ import AdminRiwayat from './pages/admin/riwayat';
 import Selesai from './pages/admin/selesai';
 import SelesaiDetail from './pages/admin/selesai-detail';
 
+
 function App() {
   return (
     <div className="App">
@@ -54,11 +55,11 @@ function App() {
           <Route path='/user/lapor' element={<UserSidebar body={Lapor}/>}/>
           <Route path='/user/riwayat' element={<UserSidebar body={UserRiwayat}/>}/>
           <Route path='/user/riwayat/:idLaporan' element={<UserSidebar body={UserRiwayatDetail}/>}/>
-          
+
           <Route path='/admin/' element={<AdminSidebar body={AdminIndex}/>}/>
           <Route path='/admin/profil' element={<AdminSidebar body={AdminProfile}/>}/>
           <Route path='/admin/profil/edit' element={<AdminSidebar body={AdminProfileEdit}/>}/>
-          <Route path='/admin/password' element={<AdminSidebar body={AdminPassword}/>}/>
+          <Route path='/admin/profil/password' element={<AdminSidebar body={AdminPassword}/>}/>
           <Route path='/admin/dasbor' element={<AdminSidebar body={Dashboard}/>}/>
           <Route path='/admin/masyarakat' element={<AdminSidebar body={Masyarakat}/>}/>
           <Route path='/admin/masyarakat/:idMasyarakat' element={<AdminSidebar body={MasyarakatDetail}/>}/>
