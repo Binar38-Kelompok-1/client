@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -164,7 +166,11 @@ const Register = () => {
             />{" "}
             <br /> <br />
             <div className="d-flex justify-content-between">
-              <a className="btn btn-danger" style={{ width: "23%" }} href="/">
+              <a
+                onClick={() => navigate("/")}
+                className="btn btn-danger"
+                style={{ width: "23%" }}
+              >
                 <i className="fa-solid fa-right-from-bracket"></i>
               </a>
               <button className="btn btn-success w-75" type="submit">
