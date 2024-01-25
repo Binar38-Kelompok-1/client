@@ -32,24 +32,26 @@ const LoginPetugas = () => {
                 password: password
             })
 
-            if (response.data.token) {
-                console.log('Login Success');
-                document.cookie = `authorization=${response.data.token}; path=/;`
-                toast.success('Login Berhasil !', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: false,
-                    progress: undefined,
-                    theme: "colored",
-                    transition: Slide
-                })
-                navigate('/admin')
-            } else {
-                console.log('Login Failed');
-            }
+            // if (response.data.token) {
+            //     console.log('Login Success');
+            //     document.cookie = `authorization=${response.data.token}; path=/;`
+            //     toast.success('Login Berhasil !', {
+            //         position: "top-center",
+            //         autoClose: 3000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: false,
+            //         draggable: false,
+            //         progress: undefined,
+            //         theme: "colored",
+            //         transition: Slide
+            //     })
+            //     navigate('/admin')
+            // } else {
+            //     console.log('Login Failed');
+            // }
+
+            console.log(response, '<==== NIH');
         } catch (error) {
             toast.error('Username atau Password Salah !', {
                 position: "top-center",

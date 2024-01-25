@@ -24,7 +24,7 @@ const UserProfileEdit = () => {
 
       const data = await axios({
         method: "GET",
-        url: "http://localhost:3000/user/profil",
+        url: "http://54.225.11.99/user/profil",
         withCredentials: true,
         headers: {
           Authorization: ` ${token}`,
@@ -63,7 +63,7 @@ const UserProfileEdit = () => {
 
       await axios({
         method: "POST",
-        url: "http://localhost:3000/user/profil/edit",
+        url: "http://54.225.11.99/user/profil/edit",
         data: inputUser,
         withCredentials: true,
         headers: {

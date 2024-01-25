@@ -24,7 +24,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/register", formData);
+      await axios.post("http://54.225.11.99/register", formData);
       navigate("/");
       console.log("berhasil");
 
