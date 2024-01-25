@@ -32,26 +32,24 @@ const LoginPetugas = () => {
                 password: password
             })
 
-            // if (response.data.token) {
-            //     console.log('Login Success');
-            //     document.cookie = `authorization=${response.data.token}; path=/;`
-            //     toast.success('Login Berhasil !', {
-            //         position: "top-center",
-            //         autoClose: 3000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: false,
-            //         draggable: false,
-            //         progress: undefined,
-            //         theme: "colored",
-            //         transition: Slide
-            //     })
-            //     navigate('/admin')
-            // } else {
-            //     console.log('Login Failed');
-            // }
-
-            console.log(response, '<==== NIH');
+            if (response.data.token) {
+                console.log('Login Success');
+                document.cookie = `authorization=${response.data.token}; path=/;`
+                toast.success('Login Berhasil !', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Slide
+                })
+                navigate('/admin')
+            } else {
+                console.log('Login Failed');
+            }
         } catch (error) {
             toast.error('Username atau Password Salah !', {
                 position: "top-center",
@@ -116,7 +114,7 @@ const LoginPetugas = () => {
             </style>
             <center>
                 <h1 className="title mt-3" >Aplikasi Laporan Masyarakat Depok</h1> <br/>
-                <h1 className="login">Login Petugas1</h1>
+                <h1 className="login">Login Petugas</h1>
 
                 {/* <% if (typeof errors !== 'undefined') { %>
                     <p className="alert alert-danger w-25" style="color: red;"><i className="fa-solid fa-circle-exclamation"></i> <%= errors[0].message %></p>
