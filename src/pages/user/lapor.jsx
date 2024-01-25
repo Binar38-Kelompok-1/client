@@ -17,12 +17,12 @@ const Lapor = () => {
 
       const formData = new FormData(e.target);
       const response = await axios.post(
-        "http://localhost:3000/user/lapor",
+        "http://54.225.11.99/user/lapor",
         formData,
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           },
         }
       );

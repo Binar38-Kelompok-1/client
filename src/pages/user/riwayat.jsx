@@ -18,10 +18,10 @@ const UserRiwayat = () => {
 
       const data = await axios({
         method: "GET",
-        url: "http://localhost:3000/user/riwayat",
+        url: "http://54.225.11.99/user/riwayat",
         withCredentials: true,
         headers: {
-          Authorization: ` ${token}`,
+          Authorization: `${token}`,
         },
       });
       setRiwayatLaporan(data.data.data);

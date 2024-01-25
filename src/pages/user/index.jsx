@@ -12,10 +12,12 @@ const UserIndex = () => {
           .find((row) => row.startsWith("authorization="))
           .split("=")[1];
 
-        const data = await axios.get("http://localhost:3000/user", {
+        console.log(token);
+        console.log("masuk <=====");
+        const data = await axios.get("http://54.225.11.99/user", {
           withCredentials: true,
           headers: {
-            Authorization: ` ${token}`,
+            Authorization: `${token}`,
           },
         });
         setUserName(data.data.data.nama);
