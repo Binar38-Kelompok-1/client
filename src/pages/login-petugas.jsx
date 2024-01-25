@@ -116,7 +116,7 @@ const LoginPetugas = () => {
             </style>
             <center>
                 <h1 className="title mt-3" >Aplikasi Laporan Masyarakat Depok</h1> <br/>
-                <h1 className="login">Login Petugas</h1>
+                <h1 className="login">Login Petugas1</h1>
 
                 {/* <% if (typeof errors !== 'undefined') { %>
                     <p className="alert alert-danger w-25" style="color: red;"><i className="fa-solid fa-circle-exclamation"></i> <%= errors[0].message %></p>
