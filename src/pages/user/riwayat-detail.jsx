@@ -25,7 +25,7 @@ const UserRiwayatDetail = () => {
         url: `http://54.225.11.99/user/riwayat/${id}`,
         withCredentials: true,
         headers: {
-          Authorization: ` ${token}`,
+          Authorization: `${token}`,
         },
       });
 

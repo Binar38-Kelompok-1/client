@@ -21,7 +21,7 @@ const UserRiwayat = () => {
         url: "http://54.225.11.99/user/riwayat",
         withCredentials: true,
         headers: {
-          Authorization: ` ${token}`,
+          Authorization: `${token}`,
         },
       });
       setRiwayatLaporan(data.data.data);

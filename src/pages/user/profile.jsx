@@ -16,7 +16,7 @@ const UserProfile = () => {
         const response = await axios.get("http://54.225.11.99/user", {
           withCredentials: true,
           headers: {
-            Authorization: ` ${token}`,
+            Authorization: `${token}`,
           },
         });
 

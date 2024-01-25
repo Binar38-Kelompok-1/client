@@ -18,7 +18,7 @@ const UserSidebar = (props) => {
         const data = await axios.get("http://localhost:3000/user", {
           withCredentials: true,
           headers: {
-            Authorization: ` ${token}`,
+            Authorization: `${token}`,
           },
         });
         setUserName(data.data.data.nama);
