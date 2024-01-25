@@ -27,7 +27,7 @@ const LoginPetugas = () => {
         event.preventDefault()
 
         try {
-            const response = await axios.post('http://localhost:3000/login-petugas', {
+            const response = await axios.post('http://54.225.11.99/login-petugas', {
                 username: username,
                 password: password
             })

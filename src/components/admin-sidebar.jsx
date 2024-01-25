@@ -24,7 +24,7 @@ const AdminSidebar = (props) => {
             .find((row) => row.startsWith("authorization="))
             .split("=")[1];
 
-            const response = await axios.get('http://localhost:3000/admin/', {
+            const response = await axios.get('http://54.225.11.99/admin/', {
                 withCredentials: true,
                 headers: {
                     Authorization: `${token}`
