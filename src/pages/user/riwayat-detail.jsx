@@ -11,7 +11,7 @@ const UserRiwayatDetail = () => {
 
   useEffect(() => {
     handleDetailRiwayat(idLaporan);
-  }, [idLaporan]);
+  }, []);
 
   const handleDetailRiwayat = async (id) => {
     try {
@@ -22,7 +22,7 @@ const UserRiwayatDetail = () => {
 
       const data = await axios({
         method: "GET",
-        url: `http://localhost:3000/user/riwayat/${id}`,
+        url: `http://54.225.11.99/user/riwayat/${id}`,
         withCredentials: true,
         headers: {
           Authorization: ` ${token}`,

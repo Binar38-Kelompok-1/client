@@ -23,7 +23,7 @@ const UserPassword = () => {
 
       const data = await axios({
         method: "POST",
-        url: "http://localhost:3000/user/profil/password",
+        url: "http://54.225.11.99/user/profil/password",
         data: {
           password: userOldPassword,
         },
@@ -58,7 +58,7 @@ const UserPassword = () => {
 
       await axios({
         method: "POST",
-        url: "http://localhost:3000/user/profil/password/baru",
+        url: "http://54.225.11.99/user/profil/password/baru",
         withCredentials: true,
         headers: {
           Authorization: ` ${token}`,

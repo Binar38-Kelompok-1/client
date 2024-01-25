@@ -18,7 +18,7 @@ const UserRiwayat = () => {
 
       const data = await axios({
         method: "GET",
-        url: "http://localhost:3000/user/riwayat",
+        url: "http://54.225.11.99/user/riwayat",
         withCredentials: true,
         headers: {
           Authorization: ` ${token}`,
@@ -97,7 +97,7 @@ const UserRiwayat = () => {
               <tr key={i}>
                 <td scope="row">{i + 1}</td>
                 <td>
-                  {new Date(row.created_at).toLocaleDateString("id-ID", {
+                  {new Date(row.tgl_laporan).toLocaleDateString("id-ID", {
                     weekday: "long",
                     day: "2-digit",
                     month: "long",
