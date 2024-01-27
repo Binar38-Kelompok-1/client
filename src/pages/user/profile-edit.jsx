@@ -27,7 +27,7 @@ const UserProfileEdit = () => {
         url: "http://54.225.11.99/user/profil",
         withCredentials: true,
         headers: {
-          Authorization: ` ${token}`,
+          Authorization: `${token}`,
         },
       });
 

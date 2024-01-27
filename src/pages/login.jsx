@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/", formData);
+      const response = await axios.post("http://54.225.11.99/", formData);
 
       // Assuming your API response structure is similar to the provided example
       if (response.data.token) {

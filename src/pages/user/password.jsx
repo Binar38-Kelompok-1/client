@@ -29,7 +29,7 @@ const UserPassword = () => {
         },
         withCredentials: true,
         headers: {
-          Authorization: ` ${token}`,
+          Authorization: `${token}`,
         },
       });
       setUserOldPassword(data.data.data.password);
