@@ -97,7 +97,7 @@ const UserRiwayat = () => {
               <tr key={i}>
                 <td scope="row">{i + 1}</td>
                 <td>
-                  {new Date(row.tgl_laporan).toLocaleDateString("id-ID", {
+                  {new Date(row.created_at).toLocaleDateString("id-ID", {
                     weekday: "long",
                     day: "2-digit",
                     month: "long",
