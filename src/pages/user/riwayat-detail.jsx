@@ -7,7 +7,6 @@ const UserRiwayatDetail = () => {
   const [detailLaporan, setDetailLaporan] = useState({});
 
   const idLaporan = searchParams.get("id");
-  console.log("debug id laporan:", searchParams.get("id"));
 
   useEffect(() => {
     handleDetailRiwayat(idLaporan);
@@ -20,58 +19,72 @@ const UserRiwayatDetail = () => {
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
 
-      const data = await axios({
-        method: "GET",
-        url: `http://54.225.11.99/user/riwayat/${id}`,
-        withCredentials: true,
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const response = await axios.get(
+        `http://54.225.11.99/user/riwayat/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
-      console.log("debug detail lap:", data.data.data);
-      setDetailLaporan(data.data.data);
+      const { data } = response;
+      setDetailLaporan(data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    });
+  };
+
   return (
     <>
       <style>
         {`
-                    .card {
-                        border-radius: 20px !important;
-                    }
-                
-                    .card-header {
-                        background-color: #2E3691;
-                        color: white;
-                        font-size: 20px;
-                        font-weight: 600;
-                        border-top-left-radius: 20px !important;
-                        border-top-right-radius: 20px !important;
-                    }
-                
-                    .card-footer {
-                        background-color: #2E3691;
-                        color: white;
-                        border-bottom-left-radius: 20px !important;
-                        border-bottom-right-radius: 20px !important;
-                    }
-                
-                    img {
-                        width: 200px;
-                    }
-                
-                    .isi {
-                        margin-left: 10px;
-                        font-size: 15px;
-                    }
-                
-                    span {
-                        font-weight: 600;
-                    }
-                `}
+          .card {
+            border-radius: 20px !important;
+          }
+
+          .card-header {
+            background-color: #2E3691;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+          }
+
+          .card-footer {
+            background-color: #2E3691;
+            color: white;
+            border-bottom-left-radius: 20px !important;
+            border-bottom-right-radius: 20px !important;
+          }
+
+          img {
+            width: 200px;
+          }
+
+          .isi {
+            margin-left: 10px;
+            font-size: 15px;
+          }
+
+          span {
+            font-weight: 600;
+          }
+        `}
       </style>
 
       <div className="container w-75 mt-2">
@@ -96,7 +109,6 @@ const UserRiwayatDetail = () => {
                   ? "Sudah Dibalas"
                   : "Belum Dibalas"}
               </p>
-
               <p>
                 <span>Isi Laporan: </span>
                 {detailLaporan.laporan?.isi_laporan}
@@ -130,17 +142,7 @@ const UserRiwayatDetail = () => {
               </p>
               <p>
                 <span>Dibalas Pada: </span>
-                {new Date(
-                  detailLaporan.balasan?.tgl_balasan
-                ).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  timeZoneName: "short",
-                })}
+                {formatDate(detailLaporan.balasan?.tgl_balasan)}
               </p>
             </div>
             <div className="card-footer"></div>

@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Lapor = () => {
   const navigate = useNavigate();
   const [isiLaporan, setIsiLaporan] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState(null);
+
+  const handleFileChange = (e) => {
+    setSelectedFiles(e.target.files);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       // Fetch the token from cookie
       const token = document.cookie
@@ -15,7 +21,16 @@ const Lapor = () => {
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
 
-      const formData = new FormData(e.target);
+      const formData = new FormData();
+      formData.append("isi_laporan", isiLaporan);
+
+      // Append selected files to formData
+      if (selectedFiles) {
+        for (const file of selectedFiles) {
+          formData.append("foto", file);
+        }
+      }
+
       const response = await axios.post(
         "http://54.225.11.99/user/lapor",
         formData,
@@ -26,6 +41,7 @@ const Lapor = () => {
           },
         }
       );
+
       if (response.data.message === "success") {
         navigate("/user/riwayat");
       } else {
@@ -41,29 +57,23 @@ const Lapor = () => {
     <>
       <style>
         {`
-                    .title {
-                        text-align: center;
-                        font-size: 50px;
-                        font-weight: 700;
-                    }
-                
-                    .btn {
-                        border-radius: 10px;
-                    }
-                
-                    textarea {
-                        border-radius: 20px !important;
-                    }
-                `}
+          .title {
+            text-align: center;
+            font-size: 50px;
+            font-weight: 700;
+          }
+      
+          .btn {
+            border-radius: 10px;
+          }
+      
+          textarea {
+            border-radius: 20px !important;
+          }
+        `}
       </style>
 
       <h1 className="title">Tulis Laporan</h1>
-
-      {/* <% if (typeof message !== 'undefined') { %>
-                <div className="container text-center">
-                    <p className="alert alert-success" style="color: green;"><%= message %></p>
-                </div>
-            <% } %> */}
 
       <div className="container w-100">
         <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -75,27 +85,28 @@ const Lapor = () => {
             placeholder="Tulis Laporan Disini"
             value={isiLaporan}
             onChange={(e) => setIsiLaporan(e.target.value)}
+            required
           ></textarea>
-          <div className="d-flex justify-content-between">
-            <input
-              className="file"
-              type="file"
-              id="foto"
-              name="foto"
-              multiple
-            />
-            <div className="d-flex justify-content-between w-25">
-              <a
-                className="btn btn-danger"
-                style={{ width: "23%" }}
-                href="/user"
-              >
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </a>
-              <button className="btn btn-success w-75" type="submit">
-                <i className="fa-solid fa-paper-plane"></i>
-              </button>
-            </div>
+          <input
+            className="file mb-2"
+            type="file"
+            id="foto"
+            name="foto"
+            onChange={handleFileChange}
+            multiple
+            required
+          />
+          <div className="d-flex justify-content-between w-25">
+            <button
+              className="btn btn-danger"
+              style={{ width: "23%" }}
+              onClick={() => navigate("/user")}
+            >
+              <i className="fa-solid fa-right-from-bracket"></i>
+            </button>
+            <button className="btn btn-success w-75" type="submit">
+              <i className="fa-solid fa-paper-plane"></i>
+            </button>
           </div>
         </form>
       </div>

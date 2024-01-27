@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UserPassword = () => {
@@ -21,25 +21,23 @@ const UserPassword = () => {
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
 
-      const data = await axios({
-        method: "POST",
-        url: "http://54.225.11.99/user/profil/password",
-        data: {
-          password: userOldPassword,
-        },
-        withCredentials: true,
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const data = await axios.post(
+        "http://54.225.11.99/user/profil/password",
+        { password: userOldPassword },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
       setUserOldPassword(data.data.data.password);
-      console.log("debug data:", data.data.data.password);
       setForm2(true);
       setAlertForm1(false);
       setForm1(false);
     } catch (error) {
       setAlertForm1(true);
-      console.log("debug:", error.response);
       toast.error(error.response.data.message);
     }
   };
@@ -51,28 +49,23 @@ const UserPassword = () => {
         .split("; ")
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
-      const inputUser = {
-        password: userNewPassword,
-      };
-      console.log(inputUser, "=====>INI PASSWORD INPUT USER");
 
-      await axios({
-        method: "POST",
-        url: "http://54.225.11.99/user/profil/password/baru",
-        withCredentials: true,
-        headers: {
-          Authorization: ` ${token}`,
-        },
-        data: inputUser,
-      });
+      await axios.post(
+        "http://54.225.11.99/user/profil/password/baru",
+        { password: userNewPassword },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: ` ${token}`,
+          },
+        }
+      );
 
       navigate("/user/profil");
       toast.success("Password berhasil diubah!");
     } catch (error) {
       setAlertForm2(true);
-      console.log("debug:", error.response.data.error);
       toast.error(error.response.data.error);
-      //   alert("Error");
     }
   };
 
@@ -80,27 +73,27 @@ const UserPassword = () => {
     <>
       <style>
         {`
-                    .title {
-                        font-size: 40px;
-                        font-weight: 700;
-                        text-align: center;
-                    }
-                
-                    .div-form {
-                        background-color: #2E3691;
-                        padding-top: 10px;
-                        padding-bottom: 10px;
-                        border-radius: 20px;
-                    }
-                
-                    .form-control {
-                        border-radius: 10px;
-                    }
-                
-                    .btn {
-                        border-radius: 10px;
-                    }
-                `}
+          .title {
+            font-size: 40px;
+            font-weight: 700;
+            text-align: center;
+          }
+      
+          .div-form {
+            background-color: #2E3691;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 20px;
+          }
+      
+          .form-control {
+            border-radius: 10px;
+          }
+      
+          .btn {
+            border-radius: 10px;
+          }
+        `}
       </style>
 
       {form1 && (
@@ -110,17 +103,14 @@ const UserPassword = () => {
           <div className="container w-25">
             {alertForm1 && (
               <p className="alert alert-danger" style={{ color: "red" }}>
-                <i
-                  className="fa-solid fa-circle-exclamation inline-block mr-4"
-                  style={{ marginRight: 4 }}
-                ></i>
+                <i className="fa-solid fa-circle-exclamation inline-block mr-4"></i>
                 Password salah!
               </p>
             )}
           </div>
 
           <div className="container div-form w-25 mt-4">
-            <form action="/user/profil/password" method="post">
+            <form onSubmit={getOldPassword}>
               <input
                 className="form-control mb-2"
                 type="password"
@@ -132,18 +122,14 @@ const UserPassword = () => {
                 required
               />
               <div className="d-flex justify-content-between">
-                <a
+                <button
                   className="btn btn-danger"
                   style={{ width: "23%" }}
-                  href="/user/profil"
+                  onClick={() => navigate("/user/profil")}
                 >
                   <i className="fa-solid fa-right-from-bracket"></i>
-                </a>
-                <button
-                  onClick={getOldPassword}
-                  className="btn btn-success w-75"
-                  type="submit"
-                >
+                </button>
+                <button className="btn btn-success w-75" type="submit">
                   <i className="fa-solid fa-check"></i>
                 </button>
               </div>
@@ -159,17 +145,14 @@ const UserPassword = () => {
           <div className="container w-50">
             {alertForm2 && (
               <p className="alert alert-danger" style={{ color: "red" }}>
-                <i
-                  className="fa-solid fa-circle-exclamation"
-                  style={{ marginRight: 4 }}
-                ></i>
+                <i className="fa-solid fa-circle-exclamation"></i>
                 Password tidak boleh sama!
               </p>
             )}
           </div>
 
           <div className="container div-form mt-4 w-25">
-            <form action="/user/profil/password/baru" method="post">
+            <form onSubmit={handleNewPassword}>
               <input
                 className="form-control mb-2"
                 type="password"
@@ -181,18 +164,14 @@ const UserPassword = () => {
                 required
               />
               <div className="d-flex justify-content-between">
-                <a
+                <button
                   className="btn btn-danger"
                   style={{ width: "23%" }}
-                  href="/user/profil"
+                  onClick={() => navigate("/user/profil")}
                 >
                   <i className="fa-solid fa-right-from-bracket"></i>
-                </a>
-                <button
-                  onClick={handleNewPassword}
-                  className="btn btn-success w-75"
-                  type="submit"
-                >
+                </button>
+                <button className="btn btn-success w-75" type="submit">
                   <i className="fa-solid fa-check"></i>
                 </button>
               </div>

@@ -7,25 +7,33 @@ const UserIndex = () => {
   useEffect(() => {
     const getUserName = async () => {
       try {
-        const token = document.cookie
+        const tokenCookie = document.cookie
           .split("; ")
-          .find((row) => row.startsWith("authorization="))
-          .split("=")[1];
+          .find((row) => row.startsWith("authorization="));
 
-        console.log(token);
-        console.log("masuk <=====");
-        const data = await axios.get("http://54.225.11.99/user", {
-          withCredentials: true,
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
-        setUserName(data.data.data.nama);
-        // console.log(data.data.data.nama);
+        if (tokenCookie) {
+          const token = tokenCookie.split("=")[1];
+
+          const response = await axios.get("http://54.225.11.99/user", {
+            withCredentials: true,
+            headers: {
+              Authorization: token,
+            },
+          });
+
+          const { nama } = response.data.data;
+          setUserName(nama);
+        } else {
+          console.error("Authorization token not found");
+        }
       } catch (error) {
-        console.log(error);
+        console.error(
+          "An error occurred while fetching user data:",
+          error.message
+        );
       }
     };
+
     getUserName();
   }, []);
 
@@ -33,16 +41,16 @@ const UserIndex = () => {
     <>
       <style>
         {`
-                    h1 {
-                        text-align: center;
-                        margin-top: 250px;
-                        font-size: 50px;
-                        font-weight: 700;
-                    }
-                `}
+          h1 {
+            text-align: center;
+            margin-top: 250px;
+            font-size: 50px;
+            font-weight: 700;
+          }
+        `}
       </style>
 
-      <h1>Selamat Datang, {userName} !</h1>
+      <h1>Selamat Datang, {userName}!</h1>
     </>
   );
 };
