@@ -11,7 +11,7 @@ const UserRiwayatDetail = () => {
 
   useEffect(() => {
     handleDetailRiwayat(idLaporan);
-  }, [idLaporan]);
+  }, []);
 
   const handleDetailRiwayat = async (id) => {
     try {
@@ -118,15 +118,15 @@ const UserRiwayatDetail = () => {
               </p>
               <p className="mt-1">
                 <span>Dibalas Oleh: </span>
-                {detailLaporan.admin}
+                {detailLaporan.admin?.nama}
               </p>
               <p>
                 <span>No.Telp: </span>
-                {detailLaporan.noTelpAdmin}
+                {"0" + detailLaporan.admin?.no_telp}
               </p>
               <p>
                 <span>Alamat: </span>
-                {detailLaporan.alamatAdmin}
+                {detailLaporan.admin?.alamat}
               </p>
               <p>
                 <span>Dibalas Pada: </span>

@@ -100,7 +100,7 @@ const UserProfile = () => {
               <span>Nama Lengkap:</span> {userData.nama}
             </p>
             <p className="key">
-              <span>Nomor Telepon:</span> {userData.no_telp}
+              <span>Nomor Telepon:</span> {"0" + userData.no_telp}
             </p>
             <p className="key">
               <span>Alamat:</span> {userData.alamat}
