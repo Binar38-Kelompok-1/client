@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileEdit = () => {
   const navigate = useNavigate();
 
-  //   const [profilEdit, setProfilEdit] = useState({});
   const [nikEdit, setNikEdit] = useState("");
   const [namaLengkapEdit, setNamaLengkapEdit] = useState("");
   const [nomorTeleponEdit, setNomorTeleponEdit] = useState("");
@@ -13,7 +12,7 @@ const UserProfileEdit = () => {
 
   useEffect(() => {
     getProfilEdit();
-  }, []); //array kosong hanya dieksekusi ketiga halaman pertama kali di load
+  }, []);
 
   const getProfilEdit = async () => {
     try {
@@ -22,24 +21,17 @@ const UserProfileEdit = () => {
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
 
-      const data = await axios({
-        method: "GET",
-        url: "http://54.225.11.99/user/profil",
+      const { data } = await axios.get("http://54.225.11.99/user/profil", {
         withCredentials: true,
         headers: {
           Authorization: `${token}`,
         },
       });
 
-      // setProfilEdit(data.data.data);
-      console.log("debug:", data.data.data);
-
       setNikEdit(data.data.data.nik);
       setNamaLengkapEdit(data.data.data.nama);
       setNomorTeleponEdit(data.data.data.no_telp);
       setAlamatEdit(data.data.data.alamat);
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -54,17 +46,13 @@ const UserProfileEdit = () => {
         no_telp: nomorTeleponEdit,
         alamat: alamatEdit,
       };
-      console.log(inputUser, "====> INI DATA USER EDIT");
 
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("authorization="))
         .split("=")[1];
 
-      await axios({
-        method: "POST",
-        url: "http://54.225.11.99/user/profil/edit",
-        data: inputUser,
+      await axios.post("http://54.225.11.99/user/profil/edit", inputUser, {
         withCredentials: true,
         headers: {
           Authorization: ` ${token}`,
@@ -72,52 +60,47 @@ const UserProfileEdit = () => {
       });
 
       navigate("/user/profil");
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error editing profile:", error);
+    }
   };
 
   return (
     <>
       <style>
         {`
-                    .title {
-                        font-size: 50px;
-                        font-weight: 700;
-                    }
-                
-                    .div-form {
-                        background-color: #2E3691;
-                        padding-bottom: 10px;
-                        padding-top: 10px;
-                        border-radius: 20px;
-                    }
-                
-                    label {
-                        color: white;
-                        font-weight: 600;
-                    }
-                
-                    .btn {
-                        border-radius: 10px;
-                    }
-                
-                    .form-control {
-                        border-radius: 10px;
-                    }
-                `}
+          .title {
+            font-size: 50px;
+            font-weight: 700;
+            text-align: center;
+          }
+      
+          .div-form {
+            background-color: #2E3691;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            border-radius: 20px;
+          }
+      
+          label {
+            color: white;
+            font-weight: 600;
+          }
+      
+          .btn {
+            border-radius: 10px;
+          }
+      
+          .form-control {
+            border-radius: 10px;
+          }
+        `}
       </style>
 
       <h1 className="text-center title">Edit Profil</h1>
 
-      {/* <% if (typeof errors !== 'undefined') { %>
-                <div className="container" style="width: 30%;">
-                    <% errors.forEach(el => { %>
-                        <p className="alert alert-danger" style="color: red;"><i className="fa-solid fa-circle-exclamation"></i> <%= el.message %></p>
-                    <% }) %>
-                </div>
-            <% } %> */}
-
       <div className="container w-25 div-form">
-        <form className="text-center" action="/user/profil/edit" method="post">
+        <form onSubmit={handleProfilEdit}>
           <label htmlFor="nik">NIK</label>
           <input
             className="form-control mb-1"
@@ -159,18 +142,14 @@ const UserProfileEdit = () => {
             required
           />
           <div className="d-flex justify-content-between text-center mt-2">
-            <a
+            <button
               className="btn btn-danger"
               style={{ width: "23%" }}
-              href="/user/profil"
+              onClick={() => navigate("/user/profil")}
             >
               <i className="fa-solid fa-right-from-bracket"></i>
-            </a>
-            <button
-              onClick={handleProfilEdit}
-              className="btn btn-success w-75"
-              type="submit"
-            >
+            </button>
+            <button className="btn btn-success w-75" type="submit">
               <i className="fa-solid fa-check"></i>
             </button>
           </div>

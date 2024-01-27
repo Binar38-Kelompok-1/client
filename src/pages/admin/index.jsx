@@ -1,38 +1,38 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const AdminIndex = () => {
-    const [nama, setNama] = useState("")
-    
-    useEffect(() => {
-        handleNama()
-    }, [])
+  const [nama, setNama] = useState("");
 
-    const handleNama = async () => {
-        try {
-            const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("authorization="))
-            .split("=")[1];
+  useEffect(() => {
+    handleNama();
+  }, []);
 
-            const response = await axios.get('http://54.225.11.99/admin/', {
-                withCredentials: true,
-                headers: {
-                    Authorization: `${token}`
-                }
-            })
+  const handleNama = async () => {
+    try {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("authorization="))
+        .split("=")[1];
 
-            setNama(response.data.data.nama)
-            console.log(response.data.data.nama);
-        } catch (error) {
-            console.log(error);
-        }
+      const response = await axios.get("http://54.225.11.99/admin/", {
+        withCredentials: true,
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+
+      setNama(response.data.data.nama);
+      console.log(response.data.data.nama);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
-        <>
-            <style>
-                {`
+  return (
+    <>
+      <style>
+        {`
                     h1 {
                         text-align: center;
                         margin-top: 250px;
@@ -40,10 +40,10 @@ const AdminIndex = () => {
                         font-weight: 700;
                     }
                 `}
-            </style>
-            <h1>Selamat Datang, {`${nama}`}</h1>
-        </>
-    )
-}
+      </style>
+      <h1>Selamat Datang, {`${nama}`}</h1>
+    </>
+  );
+};
 
-export default AdminIndex
+export default AdminIndex;

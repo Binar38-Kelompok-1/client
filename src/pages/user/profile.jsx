@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({});
@@ -37,48 +38,48 @@ const UserProfile = () => {
     <>
       <style>
         {`
-                    .card-header {
-                        background-color: #2E3691;
-                        color: white;
-                        font-size: 30px;
-                        font-weight: 700;
-                    }
-                
-                    .key {
-                        font-size: 20px;
-                    }
-                
-                    span {
-                        font-weight: 600;
-                    }
-                
-                    .card {
-                        border-radius: 20px !important;
-                    }
-                
-                    .card-header {
-                        border-top-right-radius: 20px !important;
-                        border-top-left-radius: 20px !important;
-                    }
-                
-                    .card-footer {
-                        border-bottom-right-radius: 20px !important;
-                        border-bottom-left-radius: 20px !important;
-                        background-color: #2E3691;
-                    }
-                
-                    .btn {
-                        border-radius: 10px;
-                    }
-                
-                    .prof-cont {
-                        margin-top: 80px !important;
-                    }
-                
-                    .alert {
-                        margin-bottom: -30px;
-                    }
-                `}
+          .card-header {
+            background-color: #2E3691;
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+          }
+
+          .key {
+            font-size: 20px;
+          }
+
+          span {
+            font-weight: 600;
+          }
+
+          .card {
+            border-radius: 20px !important;
+          }
+
+          .card-header {
+            border-top-right-radius: 20px !important;
+            border-top-left-radius: 20px !important;
+          }
+
+          .card-footer {
+            border-bottom-right-radius: 20px !important;
+            border-bottom-left-radius: 20px !important;
+            background-color: #2E3691;
+          }
+
+          .btn {
+            border-radius: 10px;
+          }
+
+          .prof-cont {
+            margin-top: 80px !important;
+          }
+
+          .alert {
+            margin-bottom: -30px;
+          }
+        `}
       </style>
 
       <div className="container w-50 text-center">
@@ -107,23 +108,27 @@ const UserProfile = () => {
             </p>
           </div>
           <div className="card-footer d-flex justify-content-between">
-            <a className="btn btn-danger" style={{ width: "19%" }} href="/user">
+            <Link
+              to="/user"
+              className="btn btn-danger"
+              style={{ width: "19%" }}
+            >
               <i className="fa-solid fa-right-from-bracket"></i>
-            </a>
-            <a
+            </Link>
+            <Link
+              to="profil/edit"
               className="btn btn-success"
               style={{ width: "39%" }}
-              href="profil/edit"
             >
               <i className="fa-solid fa-pen-to-square"></i> Edit Profil
-            </a>
-            <a
+            </Link>
+            <Link
+              to="profil/password"
               className="btn btn-primary"
               style={{ width: "39%" }}
-              href="profil/password"
             >
               <i className="fa-solid fa-lock"></i> Ubah Password
-            </a>
+            </Link>
           </div>
         </div>
       </div>
