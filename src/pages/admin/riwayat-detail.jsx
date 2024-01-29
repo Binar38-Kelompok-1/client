@@ -127,17 +127,18 @@ const AdminRiwayatDetail = () => {
             </p>
             <p>
               <span>Dibalas Pada: </span>
-              {new Date(
-                riwayatDetail.dataBalas?.tgl_balasan
-              ).toLocaleDateString("id-ID", {
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZoneName: "short",
-              })}
+              {new Date(riwayatDetail.dataBalas?.created_at).toLocaleDateString(
+                "id-ID",
+                {
+                  weekday: "long",
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZoneName: "short",
+                }
+              )}
             </p>
           </div>
           <div className="card-footer"></div>

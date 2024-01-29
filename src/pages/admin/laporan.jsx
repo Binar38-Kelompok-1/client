@@ -1,4 +1,61 @@
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 const Laporan = () => {
+  const [unreplied, setUnreplied] = useState([]);
+
+  useEffect(() => {
+    handleUnreplied();
+  }, []);
+
+  const handleUnreplied = async () => {
+    try {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("authorization="))
+        .split("=")[1];
+
+      const data = await axios({
+        method: "GET",
+        url: "http://54.225.11.99/admin/laporan",
+        withCredentials: true,
+        headers: {
+          Authorization: ` ${token}`,
+        },
+      });
+      setUnreplied(data.data.laporan);
+      console.log("debug unreplied:", data.data.laporan);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteUnreplied = async (idLaporan) => {
+    try {
+      if (window.confirm("Apakah Anda ingin menghapus laporan?")) {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("authorization="))
+          .split("=")[1];
+
+        await axios({
+          method: "GET",
+          url: `http://54.225.11.99/admin/laporan/${idLaporan}/delete`,
+          withCredentials: true,
+          headers: {
+            Authorization: ` ${token}`,
+          },
+        });
+        toast.success("Laporan berhasil dihapus!");
+        handleUnreplied();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <style>
@@ -37,69 +94,74 @@ const Laporan = () => {
                     }
                 `}
       </style>
-      <h1 className="title">Laporan yang Belum Dibalas</h1>
 
-      {/* <% if (message.length > 0) { %> */}
-      <p
-        className="alert alert-success w-100 text-center"
-        style={{ color: "green" }}
-      >
-        {/* <%= message %> */}
-      </p>
-      {/* <% } %> */}
+      {!unreplied.length && (
+        <h1 className="text-center nodata">
+          Tidak Ada Laporan yang Belum Dibalas!
+        </h1>
+      )}
 
-      {/* <% if (data.length == 0) { %> */}
-      <h1 className="text-center nodata">
-        Tidak Ada Laporan yang Belum Dibalas!
-      </h1>
-      {/* <% } else { %> */}
-      <table className="table" id="example">
-        <thead>
-          <tr>
-            <th className="top-left">#</th>
-            <th>NIK</th>
-            <th>Nama</th>
-            <th>Tanggal Masuk</th>
-            <th className="top-right">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* <% i = 0 %> */}
-          {/* <% data.forEach(el => { %> */}
-          <tr>
-            <td>{/* <%= i+=1 %> */}</td>
-            <td>{/* <%= el.nik %> */}</td>
-            <td>{/* <%= el.nama %> */}</td>
-            <td>
-              {/* <%= el.tgl_laporan.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %> */}
-            </td>
-            <td>
-              <a
-                className="btn btn-primary"
-                href="laporan/<%= el.id_laporan %>"
-              >
-                <i className="fa-solid fa-circle-info"></i>
-              </a>
-              <a
-                className="btn btn-danger"
-                href="laporan/<%= el.id_laporan %>/delete"
-                onClick="return confirm('Apakah Anda Ingin Menghapus Laporan dari <%=el.nama%>?')"
-              >
-                <i className="fa-solid fa-trash"></i>
-              </a>
-            </td>
-          </tr>
-          {/* <% }); %> */}
-        </tbody>
-        <tfoot>
-          <th className="bottom-left">#</th>
-          <th>NIK</th>
-          <th>Nama</th>
-          <th>Tanggal Masuk</th>
-          <th className="bottom-right">Aksi</th>
-        </tfoot>
-      </table>
-      {/* <% } %> */}
+      {!!unreplied.length && (
+        <>
+          <h1 className="title">Laporan yang Belum Dibalas</h1>
+          <table className="table" id="example">
+            <thead>
+              <tr>
+                <th className="top-left">#</th>
+                <th>NIK</th>
+                <th>Nama</th>
+                <th>Tanggal Masuk</th>
+                <th className="top-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {unreplied.map((row, i) => (
+                <tr key={i}>
+                  <td scope="row">{i + 1}</td>
+                  <td>{row.nik}</td>
+                  <td>{row.nama}</td>
+                  <td>
+                    {new Date(row.created_at).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      timeZoneName: "short",
+                    })}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/laporan/${row.id_laporan}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="fa-solid fa-circle-info"></i>
+                    </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteUnreplied(row.id_laporan)}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <th className="bottom-left">#</th>
+              <th>NIK</th>
+              <th>Nama</th>
+              <th>Tanggal Masuk</th>
+              <th className="bottom-right">Aksi</th>
+            </tfoot>
+          </table>
+        </>
+      )}
     </>
   );
 };
