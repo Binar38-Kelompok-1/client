@@ -25,7 +25,7 @@ const Selesai = () => {
         },
       });
       setReplied(data.data.data);
-      console.log("debug:", data.data.data);
+      console.log("debug replied:", data.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -76,54 +76,58 @@ const Selesai = () => {
         </h1>
       )}
 
-      <h1 className="title">Laporan yang Sudah Dibalas</h1>
+      {!!replied.length && (
+        <>
+          <h1 className="title">Laporan yang Sudah Dibalas</h1>
 
-      <table className="table" id="example">
-        <thead>
-          <tr>
-            <th className="top-left">#</th>
-            <th>NIK</th>
-            <th>Nama</th>
-            <th>Tanggal Masuk</th>
-            <th className="top-right">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {replied.map((row, i) => (
-            <tr key={i}>
-              <td scope="row">{i + 1}</td>
-              <td>{row.nik}</td>
-              <td>{row.nama}</td>
-              <td>
-                {new Date(row.tgl_laporan).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  timeZoneName: "short",
-                })}
-              </td>
-              <td>
-                <Link
-                  to={`/admin/selesai/${row.id_laporan}`}
-                  className="btn btn-primary"
-                >
-                  <i className="fa-solid fa-circle-info"></i>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <th className="bottom-left">#</th>
-          <th>NIK</th>
-          <th>Nama</th>
-          <th>Tanggal Masuk</th>
-          <th className="bottom-right">Aksi</th>
-        </tfoot>
-      </table>
+          <table className="table" id="example">
+            <thead>
+              <tr>
+                <th className="top-left">#</th>
+                <th>NIK</th>
+                <th>Nama</th>
+                <th>Tanggal Masuk</th>
+                <th className="top-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {replied.map((row, i) => (
+                <tr key={i}>
+                  <td scope="row">{i + 1}</td>
+                  <td>{row.nik}</td>
+                  <td>{row.nama}</td>
+                  <td>
+                    {new Date(row.created_at).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      timeZoneName: "short",
+                    })}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/selesai/${row.id_laporan}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="fa-solid fa-circle-info"></i>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <th className="bottom-left">#</th>
+              <th>NIK</th>
+              <th>Nama</th>
+              <th>Tanggal Masuk</th>
+              <th className="bottom-right">Aksi</th>
+            </tfoot>
+          </table>
+        </>
+      )}
     </>
   );
 };

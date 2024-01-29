@@ -95,7 +95,7 @@ const AdminRiwayat = () => {
               <td>{row.nik}</td>
               <td>{row.nama}</td>
               <td>
-                {new Date(row.tgl_laporan).toLocaleDateString("id-ID", {
+                {new Date(row.created_at).toLocaleDateString("id-ID", {
                   weekday: "long",
                   day: "2-digit",
                   month: "long",
@@ -106,7 +106,7 @@ const AdminRiwayat = () => {
                 })}
               </td>
               <td>
-                {new Date(row.tgl_balasan).toLocaleDateString("id-ID", {
+                {new Date(row.created_at).toLocaleDateString("id-ID", {
                   weekday: "long",
                   day: "2-digit",
                   month: "long",

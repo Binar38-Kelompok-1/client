@@ -142,7 +142,7 @@ const UserRiwayatDetail = () => {
               </p>
               <p>
                 <span>Dibalas Pada: </span>
-                {formatDate(detailLaporan.balasan?.tgl_balasan)}
+                {formatDate(detailLaporan.balasan?.created_at)}
               </p>
             </div>
             <div className="card-footer"></div>
